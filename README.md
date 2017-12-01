@@ -1,7 +1,9 @@
 # sunshineShop
-根本淘淘商城的项目视频，开发出来的阳光商场项目代码提交。
 
-#项目使用的技术
+根具淘淘商城的项目视频，开发出来的阳光商场项目代码提交。
+
+# 项目使用的技术
+
 1、Spring、SpringMVC、Mybatis
 
 2、JSP、JSTL、jQuery、jQuery plugin、EasyUI、KindEditor（富文本编辑器）、CSS+DIV
