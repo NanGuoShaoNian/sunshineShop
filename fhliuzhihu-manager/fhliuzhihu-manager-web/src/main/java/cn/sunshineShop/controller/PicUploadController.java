@@ -24,6 +24,7 @@ public class PicUploadController {
 	@Autowired
 	private PicUploadService picUploadService;
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/upload")
 	@ResponseBody
 	public String pictureUpload(MultipartFile uploadFile) {

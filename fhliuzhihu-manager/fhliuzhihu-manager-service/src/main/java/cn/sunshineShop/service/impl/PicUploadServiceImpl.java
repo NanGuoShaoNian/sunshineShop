@@ -48,7 +48,7 @@ public class PicUploadServiceImpl implements PicUploadService {
 			String newName = IDUtils.genImageName();
 			newName = newName + oldName.substring(oldName.lastIndexOf("."));
 			// 图片上传
-			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASE_PATH, "/",
+			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, "/", "www/2017",
 					newName, multipartFile.getInputStream());
 			// 返回结果
 			if (!result) {
@@ -57,6 +57,7 @@ public class PicUploadServiceImpl implements PicUploadService {
 				return resultMap;
 			}
 			resultMap.put("error", 0);
+			
 			resultMap.put("url", IMAGE_BASE_URL + "/" + newName);
 			return resultMap;
 
