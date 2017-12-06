@@ -54,7 +54,7 @@ public class FtpUtil {
 				return result;
 			}
 			// 切换到上传目录
-			if (!ftp.changeWorkingDirectory(basePath + filePath)) {
+			if (!ftp.changeWorkingDirectory(filePath)) {
 				// 如果目录不存在创建目录
 				String[] dirs = filePath.split("/");
 				String tempPath = basePath;
@@ -155,10 +155,9 @@ public class FtpUtil {
 
 	public static void main(String[] args) {
 		try {
-			FileInputStream in = new FileInputStream(new File("F:\\StormMedia\\gaigeming.jpg"));
-			boolean flag = uploadFile("39.106.44.255", 21, "ftpuser", "ftpuser", "/home/ftpuser/www/images",
-					"/", "gaigeming.jpg", in);
-
+			FileInputStream in = new FileInputStream(new File("C:\\Users\\Public\\Pictures\\Sample Pictures\\gaigeming.jpg"));
+			boolean flag = uploadFile("39.106.44.255", 21, "ftpuser", "ftpuser", "/",
+					"www/2017", "gaigeming1.jpg", in);
 			System.out.println(flag);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
