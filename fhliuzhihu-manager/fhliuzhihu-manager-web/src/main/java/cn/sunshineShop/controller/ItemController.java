@@ -70,4 +70,11 @@ public class ItemController {
 		return itemService.deleteItemByIdOrBatchId(ids);
 	}
 
+	@RequestMapping("/item/update")
+	@ResponseBody
+	public SunshineShopResult updateItem(TbItem item, String desc) {
+
+		return itemService.updateItem(item, desc);
+	}
+
 }
