@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.sunshineShop.common.bean.EUDataGridResult;
+import cn.sunshineShop.common.bean.SunshineShopResult;
 import cn.sunshineShop.pojo.TbItem;
+import cn.sunshineShop.pojo.TbItemDesc;
 import cn.sunshineShop.service.ItemService;
 
 /**
@@ -42,6 +44,30 @@ public class ItemController {
 
 		// 返回对应的值
 		return item;
+	}
+
+	@RequestMapping("/item/save")
+	@ResponseBody
+	public SunshineShopResult saveItem(TbItem item, String desc) {
+
+		TbItemDesc itemDesc = new TbItemDesc();
+
+		itemDesc.setItemDesc(desc);
+
+		return itemService.saveItem(item, itemDesc);
+	}
+
+	@RequestMapping("/item/delete")
+	@ResponseBody
+	public SunshineShopResult deleteItem(Long[] ids) {
+
+		// 进行判空，防止这种情况出现
+		if (ids == null || ids.length <= 0) {
+
+			return SunshineShopResult.ok();
+		}
+
+		return itemService.deleteItemByIdOrBatchId(ids);
 	}
 
 }

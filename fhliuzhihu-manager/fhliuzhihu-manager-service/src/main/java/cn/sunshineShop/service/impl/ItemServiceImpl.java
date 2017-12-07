@@ -1,5 +1,6 @@
 package cn.sunshineShop.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.sunshineShop.common.bean.EUDataGridResult;
+import cn.sunshineShop.common.bean.SunshineShopResult;
+import cn.sunshineShop.common.util.ExceptionUtil;
+import cn.sunshineShop.common.util.IDUtils;
+import cn.sunshineShop.mapper.TbItemDescMapper;
 import cn.sunshineShop.mapper.TbItemMapper;
 import cn.sunshineShop.pojo.TbItem;
+import cn.sunshineShop.pojo.TbItemDesc;
 import cn.sunshineShop.pojo.TbItemExample;
 import cn.sunshineShop.service.ItemService;
 
@@ -25,6 +31,9 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private TbItemMapper tbItemMapper;
+
+	@Autowired
+	private TbItemDescMapper descMapper;
 
 	/**
 	 * 获取商品列表
@@ -53,6 +62,58 @@ public class ItemServiceImpl implements ItemService {
 		TbItem tbItem = tbItemMapper.selectByPrimaryKey(itemId);
 
 		return tbItem;
+	}
+
+	@Override
+	public SunshineShopResult saveItem(TbItem item, TbItemDesc itemDesc) {
+
+		Date date = new Date();
+
+		// 商品的itemId
+		Long itemId = IDUtils.genItemId();
+
+		// 补全商品数据
+		item.setId(itemId);
+		item.setStatus((byte) 1);
+		item.setCreated(date);
+		item.setUpdated(date);
+
+		// 补全商品描述数据
+		itemDesc.setItemId(itemId);
+		itemDesc.setCreated(date);
+		itemDesc.setUpdated(date);
+
+		try {
+			// 把数据插入到商品表
+			tbItemMapper.insert(item);
+
+			// 把数据插入到商品描述表
+			descMapper.insert(itemDesc);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			return SunshineShopResult.build(500, ExceptionUtil.getStackTrace(e));
+
+		}
+
+		return SunshineShopResult.ok();
+	}
+
+	@Override
+	public SunshineShopResult deleteItemByIdOrBatchId(Long[] ids) {
+
+		try {
+			for (Long itemId : ids) {
+				tbItemMapper.deleteByPrimaryKey(itemId);
+				descMapper.deleteByPrimaryKey(itemId);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return SunshineShopResult.build(500, ExceptionUtil.getStackTrace(e));
+		}
+		return SunshineShopResult.ok();
 	}
 
 }
