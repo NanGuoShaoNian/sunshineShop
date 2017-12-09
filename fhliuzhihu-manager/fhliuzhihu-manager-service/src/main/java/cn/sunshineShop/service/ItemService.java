@@ -19,4 +19,6 @@ public interface ItemService {
 	SunshineShopResult saveItem(TbItem item, TbItemDesc itemDesc);
 
 	SunshineShopResult deleteItemByIdOrBatchId(Long[] ids);
+
+	SunshineShopResult updateItem(TbItem item, String desc);
 }

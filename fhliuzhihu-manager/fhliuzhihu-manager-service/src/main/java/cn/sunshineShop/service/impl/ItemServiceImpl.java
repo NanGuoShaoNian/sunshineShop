@@ -116,4 +116,38 @@ public class ItemServiceImpl implements ItemService {
 		return SunshineShopResult.ok();
 	}
 
+	@Override
+	public SunshineShopResult updateItem(TbItem item, String desc) {
+
+		Date upDate = new Date();
+
+		try {
+			// 通过主键，查询数据中存在的记录
+			TbItem tbItem = tbItemMapper.selectByPrimaryKey(item.getId());
+
+			TbItemDesc tbItemDesc = descMapper.selectByPrimaryKey(item.getId());
+
+			tbItem.setBarcode(item.getBarcode());
+			tbItem.setCid(item.getCid());
+			tbItem.setImage(item.getImage());
+			tbItem.setNum(item.getNum());
+			tbItem.setPrice(item.getPrice());
+			tbItem.setSellPoint(item.getSellPoint());
+			tbItem.setTitle(item.getTitle());
+			tbItem.setUpdated(upDate);
+
+			tbItemDesc.setItemDesc(desc);
+			tbItemDesc.setUpdated(upDate);
+
+			tbItemMapper.updateByPrimaryKey(tbItem);
+
+			descMapper.updateByPrimaryKey(tbItemDesc);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return SunshineShopResult.build(500, ExceptionUtil.getStackTrace(e));
+		}
+		return SunshineShopResult.ok();
+	}
+
 }
